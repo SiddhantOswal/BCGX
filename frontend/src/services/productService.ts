@@ -54,6 +54,7 @@ export interface OptimizedProduct {
   cost_price: number;
   selling_price: number;
   optimized_price: number;
+  max_profit: number;
 }
 
 export const productService = {

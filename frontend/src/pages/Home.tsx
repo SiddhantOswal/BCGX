@@ -1,8 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { Package, TrendingUp } from "lucide-react";
+import { Package, TrendingUp, LogOut, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged Out",
+      description: "You have been successfully logged out.",
+    });
+  };
 
   const tiles = [
     {
@@ -21,6 +34,37 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-background p-8">
+      {/* Header with user info and logout */}
+      <div className="max-w-7xl mx-auto mb-8">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <span className="text-2xl font-bold">
+              <span className="text-foreground">BCG</span>
+              <span className="text-primary">X</span>
+            </span>
+            <span className="text-primary font-semibold">Price Optimization Tool</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <User className="w-4 h-4" />
+              <span>{user?.full_name}</span>
+              <span className="px-2 py-1 bg-primary/20 text-primary rounded text-xs">
+                {user?.role}
+              </span>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleLogout}
+              className="flex items-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
+            </Button>
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="mb-6">

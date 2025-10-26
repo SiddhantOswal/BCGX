@@ -1,13 +1,11 @@
 # backend/routers/products.py
 from fastapi import APIRouter, Depends, HTTPException, Query
-from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from uuid import UUID
 from typing import List, Optional
 from database import get_db
 import models, schemas
 from sqlalchemy import select, or_
-from routers.auth import get_current_active_user
 
 router = APIRouter(tags=["products"])
 
@@ -53,7 +51,10 @@ def get_product(product_id: UUID, db: Session = Depends(get_db)):
     return product
 
 @router.post("", response_model=schemas.ProductOut, status_code=201)
-def create_product(product: schemas.ProductCreate, db: Session = Depends(get_db)):
+def create_product(
+    product: schemas.ProductCreate, 
+    db: Session = Depends(get_db)
+):
     """
     Create a new product.
     """
@@ -69,8 +70,8 @@ def create_product(product: schemas.ProductCreate, db: Session = Depends(get_db)
     
     # Calculate optimized price for new products if not provided
     if db_product.optimized_price is None:
-        from routers.optimize import calculate_smart_optimized_price
-        db_product.optimized_price = calculate_smart_optimized_price(db_product, db)
+        from routers.optimize import find_optimal_price
+        db_product.optimized_price, _ = find_optimal_price(db_product)
     
     # Add to database
     db.add(db_product)
@@ -129,7 +130,10 @@ def update_product(
     return db_product
 
 @router.delete("/{product_id}", status_code=204)
-def delete_product(product_id: UUID, db: Session = Depends(get_db)):
+def delete_product(
+    product_id: UUID, 
+    db: Session = Depends(get_db)
+):
     """
     Delete a product by ID.
     """

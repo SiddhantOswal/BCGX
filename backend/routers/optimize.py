@@ -3,71 +3,72 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
 from models import Product
-from routers.auth import get_current_active_user
 import models
+import math
 
 router = APIRouter(tags=["optimize"])
 
-def calculate_smart_optimized_price(product: Product, db: Session) -> float:
+def calculate_demand_forecast(base_demand: int, price: float, cost_price: float) -> int:
     """
-    Calculate optimized price for new products using category-based pricing patterns.
-    For products with pre-calculated optimized_price, use that value.
-    For new products, calculate based on category averages and margin patterns.
+    Calculate demand using the same formula as forecast.py
     """
-    # If product has pre-calculated optimized price, use it
-    if product.optimized_price is not None:
-        return product.optimized_price
+    margin_ratio = (price - cost_price) / max(cost_price, 1)
+    elasticity = 0.25
+    calculated_demand = base_demand * math.exp(-elasticity * margin_ratio)
+    return max(0, int(round(calculated_demand)))
+
+def find_optimal_price(product: Product) -> tuple[float, float]:
+    """
+    Find the price that maximizes profit for a product.
+    Returns (optimized_price, max_profit)
+    """
+    base_demand = product.demand_forecast if product.demand_forecast is not None else 1000
+    cost_price = float(product.cost_price)
     
-    # For new products, calculate based on category patterns
-    from sqlalchemy import select, func
+    # Generate 20 price points from cost_price to cost_price * 2
+    min_price = cost_price
+    max_price = cost_price * 2
+    price_points = []
     
-    # Get category statistics
-    stmt = select(
-        func.avg(Product.selling_price - Product.cost_price).label('avg_margin'),
-        func.avg(Product.optimized_price / Product.selling_price).label('avg_price_multiplier')
-    ).where(
-        Product.category == product.category,
-        Product.optimized_price.isnot(None)
-    )
+    for i in range(20):
+        price = min_price + (max_price - min_price) * i / 19
+        price_points.append(round(price, 2))
     
-    result = db.execute(stmt).first()
+    max_profit = 0
+    optimal_price = cost_price
     
-    if result and result.avg_margin and result.avg_price_multiplier:
-        # Use category-based pricing
-        avg_margin = float(result.avg_margin)
-        avg_multiplier = float(result.avg_price_multiplier)
+    # Calculate profit for each price point
+    for price in price_points:
+        demand = calculate_demand_forecast(base_demand, price, cost_price)
+        profit = (price - cost_price) * demand
         
-        # Calculate optimized price using category patterns
-        optimized_price = product.selling_price * avg_multiplier
-        
-        # Ensure minimum margin
-        min_margin = product.cost_price * 0.2  # 20% minimum margin
-        if optimized_price - product.cost_price < min_margin:
-            optimized_price = product.cost_price + min_margin
-            
-        return round(optimized_price, 2)
-    else:
-        # Fallback: Use simple margin increase (25% boost)
-        current_margin = product.selling_price - product.cost_price
-        optimal_margin = 1.25 * current_margin
-        return round(product.cost_price + optimal_margin, 2)
+        if profit > max_profit:
+            max_profit = profit
+            optimal_price = price
+    
+    return optimal_price, max_profit
 
 @router.get("/optimize")
 def optimize(db: Session = Depends(get_db)):
+    """
+    Optimize prices for all products by finding the price that maximizes profit.
+    """
     from sqlalchemy import select
     stmt = select(Product)
     products = db.execute(stmt).scalars().all()
+    
     result = []
-    for p in products:
-        # Use smart pricing calculation
-        optimized_price = calculate_smart_optimized_price(p, db)
+    for product in products:
+        optimized_price, max_profit = find_optimal_price(product)
+        
         result.append({
-            "id": str(p.id),
-            "name": p.name,
-            "category": p.category,
-            "description": p.description,
-            "cost_price": p.cost_price,
-            "selling_price": p.selling_price,
+            "id": str(product.id),
+            "name": product.name,
+            "category": product.category,
+            "cost_price": product.cost_price,
+            "selling_price": product.selling_price,
             "optimized_price": optimized_price,
+            "max_profit": max_profit,
         })
+    
     return result

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Plus, Filter, Eye, Pencil, Trash2 } from "lucide-react";
+import { ArrowLeft, Plus, Filter, Eye, Pencil, Trash2, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -25,6 +25,7 @@ import { useProducts } from "@/hooks/useProducts";
 import { ProductCreate, Product, ProductUpdate, ForecastSummary } from "@/services/productService";
 import { useToast } from "@/hooks/use-toast";
 import { productService } from "@/services/productService";
+import ForecastModal from "@/components/ForecastModal";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -41,6 +42,8 @@ const CreateProduct = () => {
   const [withDemandForecast, setWithDemandForecast] = useState(false);
   const [forecastData, setForecastData] = useState<ForecastSummary[]>([]);
   const [loadingForecast, setLoadingForecast] = useState(false);
+  const [showForecastModal, setShowForecastModal] = useState(false);
+  const [selectedProductForForecast, setSelectedProductForForecast] = useState<Product | null>(null);
   
   const { products, loading, error, createProduct, updateProduct, deleteProduct, refreshProducts } = useProducts(
     searchTerm || undefined,
@@ -200,6 +203,11 @@ const CreateProduct = () => {
     setShowEditDialog(true);
   };
 
+  const handleForecastProduct = (product: Product) => {
+    setSelectedProductForForecast(product);
+    setShowForecastModal(true);
+  };
+
   const handleUpdateProduct = async () => {
     if (!selectedProduct || !newProduct.name || !newProduct.category || newProduct.cost_price <= 0 || newProduct.selling_price <= 0) {
       toast({
@@ -277,7 +285,7 @@ const CreateProduct = () => {
             <span className="text-primary font-semibold">Price Optimization Tool</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">Welcome, User</span>
+            <span className="text-sm text-muted-foreground">Welcome, Rakesh</span>
             <div className="w-8 h-8 rounded-full bg-muted-foreground/20" />
           </div>
         </div>
@@ -439,6 +447,13 @@ const CreateProduct = () => {
                             title="Edit Product"
                           >
                             <Pencil className="w-4 h-4" />
+                          </button>
+                          <button 
+                            className="text-muted-foreground hover:text-primary"
+                            onClick={() => handleForecastProduct(product)}
+                            title="Demand Forecast"
+                          >
+                            <BarChart3 className="w-4 h-4" />
                           </button>
                           <button 
                             className="text-muted-foreground hover:text-destructive"
@@ -743,6 +758,14 @@ const CreateProduct = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Forecast Modal */}
+      <ForecastModal
+        isOpen={showForecastModal}
+        onClose={() => setShowForecastModal(false)}
+        productId={selectedProductForForecast?.id || ""}
+        productName={selectedProductForForecast?.name || ""}
+      />
     </div>
   );
 };

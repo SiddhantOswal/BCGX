@@ -39,13 +39,13 @@ def seed(force=False):
         # Insert products
         for _, row in df.iterrows():
             product = Product(
-                name=row["name"],
-                category=row["category"],
+                name=str(row["name"]),
+                category=str(row["category"]),
                 cost_price=float(row["cost_price"]),
                 selling_price=float(row["selling_price"]),
                 optimized_price=float(row["optimized_price"]) if pd.notna(row["optimized_price"]) else None,
                 demand_forecast=int(row["demand_forecast"]) if pd.notna(row["demand_forecast"]) else None,
-                description=row["description"] if pd.notna(row["description"]) else "",
+                description=str(row["description"]) if pd.notna(row["description"]) else "",
                 stock_available=int(row["stock_available"]),
                 units_sold=int(row["units_sold"]),
             )
@@ -57,6 +57,8 @@ def seed(force=False):
         
     except Exception as e:
         print(f"Error seeding data: {e}")
+        import traceback
+        traceback.print_exc()
         session.rollback()
     finally:
         session.close()

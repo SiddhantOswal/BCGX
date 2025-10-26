@@ -13,17 +13,17 @@ class ApiService {
 
   constructor(baseURL: string = API_BASE_URL) {
     this.baseURL = baseURL;
-    this.token = localStorage.getItem('auth_token');
+    this.token = localStorage.getItem('token');
   }
 
-  setToken(token: string) {
+  setAuthToken(token: string) {
     this.token = token;
-    localStorage.setItem('auth_token', token);
+    localStorage.setItem('token', token);
   }
 
-  clearToken() {
+  clearAuthToken() {
     this.token = null;
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem('token');
   }
 
   private async request<T>(

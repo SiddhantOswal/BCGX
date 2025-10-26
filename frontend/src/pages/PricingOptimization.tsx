@@ -87,7 +87,7 @@ const PricingOptimization = () => {
             <span className="text-primary font-semibold">Price Optimization Tool</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">Welcome, User</span>
+            <span className="text-sm text-muted-foreground">Welcome, Rakesh</span>
             <div className="w-8 h-8 rounded-full bg-muted-foreground/20" />
           </div>
         </div>
@@ -124,18 +124,19 @@ const PricingOptimization = () => {
                   <th className="p-4 text-left text-foreground font-semibold">Cost Price</th>
                   <th className="p-4 text-left text-foreground font-semibold">Selling Price</th>
                   <th className="p-4 text-left text-foreground font-semibold">Optimized Price</th>
+                  <th className="p-4 text-left text-foreground font-semibold">Max Profit</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={6} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={7} className="p-8 text-center text-muted-foreground">
                       Loading optimized prices...
                     </td>
                   </tr>
                 ) : optimizedProducts.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={7} className="p-8 text-center text-muted-foreground">
                       No optimized prices available
                     </td>
                   </tr>
@@ -152,6 +153,11 @@ const PricingOptimization = () => {
                       <td className="p-4">
                         <span className="text-primary font-semibold text-lg">
                           ${product.optimized_price.toFixed(2)}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <span className="bg-green-100 text-green-800 px-3 py-1 rounded font-semibold">
+                          ${product.max_profit.toFixed(2)}
                         </span>
                       </td>
                     </tr>

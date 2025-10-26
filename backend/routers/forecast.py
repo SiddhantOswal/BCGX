@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
 from models import Product
+import models
 
 router = APIRouter(tags=["forecast"])
 
@@ -46,7 +47,10 @@ def forecast_summary(db: Session = Depends(get_db)):
     return forecast_data
 
 @router.get("/{product_id}")
-def forecast(product_id: str, db: Session = Depends(get_db)):
+def forecast(
+    product_id: str, 
+    db: Session = Depends(get_db)
+):
     """
     Returns demand forecast for a specific product.
     """

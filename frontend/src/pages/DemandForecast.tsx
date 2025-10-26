@@ -113,7 +113,7 @@ const DemandForecast = () => {
             <span className="text-primary font-semibold">Price Optimization Tool</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">Welcome, User</span>
+            <span className="text-sm text-muted-foreground">Welcome, Rakesh</span>
             <div className="w-8 h-8 rounded-full bg-muted-foreground/20" />
           </div>
         </div>
