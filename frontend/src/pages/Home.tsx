@@ -33,22 +33,22 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-screen bg-gray-50 p-8">
       {/* Header with user info and logout */}
-      <div className="max-w-7xl mx-auto mb-8">
+      <div className="w-full px-6 mb-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
             <span className="text-2xl font-bold">
-              <span className="text-foreground">BCG</span>
-              <span className="text-primary">X</span>
+              <span className="text-gray-800">BCG</span>
+              <span className="text-emerald-500">X</span>
             </span>
-            <span className="text-primary font-semibold">Price Optimization Tool</span>
+            <span className="text-emerald-500 font-semibold">Price Optimization Tool</span>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2 text-sm text-gray-600">
               <User className="w-4 h-4" />
               <span>{user?.full_name}</span>
-              <span className="px-2 py-1 bg-primary/20 text-primary rounded text-xs">
+              <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs">
                 {user?.role}
               </span>
             </div>
@@ -65,7 +65,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full px-6">
         <div className="text-center mb-16">
           <div className="mb-6">
             <span className="text-4xl font-bold">
@@ -81,7 +81,7 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {tiles.map((tile) => (
             <button
               key={tile.path}

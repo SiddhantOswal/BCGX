@@ -98,7 +98,7 @@ export const productService = {
   },
 
   async getOptimizedPrices(): Promise<OptimizedProduct[]> {
-    const response = await apiService.get<OptimizedProduct[]>('/optimize/optimize');
+    const response = await apiService.get<OptimizedProduct[]>('/optimize');
     return response.data || [];
   },
 };

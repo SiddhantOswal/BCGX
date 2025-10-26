@@ -104,7 +104,7 @@ const DemandForecast = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="bg-muted border-b border-border p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="w-full px-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-xl font-bold">
               <span className="text-foreground">BCG</span>
@@ -119,8 +119,8 @@ const DemandForecast = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto p-6">
-        <div className="flex items-center gap-4 mb-6">
+      <div className="w-full px-6">
+        <div className="flex items-center gap-4 mb-6 mt-4">
           <Button
             variant="ghost"
             size="sm"

@@ -274,87 +274,103 @@ const CreateProduct = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="bg-muted border-b border-border p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-gray-800 border-b border-gray-700 p-4">
+        <div className="w-full px-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-xl font-bold">
-              <span className="text-foreground">BCG</span>
-              <span className="text-primary">X</span>
+              <span className="text-white">BCG</span>
+              <span className="text-emerald-400">X</span>
             </span>
-            <span className="text-primary font-semibold">Price Optimization Tool</span>
+            <span className="text-emerald-400 font-semibold">Price Optimization Tool</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">Welcome, Rakesh</span>
-            <div className="w-8 h-8 rounded-full bg-muted-foreground/20" />
+            <span className="text-sm text-white">Welcome, Rakesh</span>
+            <div className="w-8 h-8 rounded-full bg-gray-600" />
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate("/")}
-              className="text-foreground hover:text-primary"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
-            <h1 className="text-2xl font-bold text-foreground">Create and Manage Product</h1>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 text-sm text-foreground">
-              <Switch
-                checked={withDemandForecast}
-                onCheckedChange={setWithDemandForecast}
-                disabled={loadingForecast}
-              />
-              With Demand Forecast
-            </div>
-          </div>
-        </div>
+      <div className="w-full px-6 bg-gray-50">
+        {/* BCG UI Toolbar - Dark Theme */}
+        <div className="bg-gray-800 rounded-lg p-3 mb-6 mt-4">
+          <div className="flex items-center justify-between w-full flex-wrap gap-2">
+            {/* Left Section */}
+            <div className="flex items-center gap-4">
+              {/* 1. Back */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/")}
+                className="text-white hover:text-emerald-400 text-sm font-medium"
+              >
+                <ArrowLeft className="w-3 h-3 mr-1" />
+                Back
+              </Button>
 
-        <div className="bg-muted rounded-lg p-4 mb-6">
-          <div className="flex items-center gap-4">
-            <div className="relative flex-1">
-              <Input
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="bg-background border-border text-foreground"
-              />
+              {/* 2. Create and Manage Product */}
+              <h1 className="text-sm font-medium text-white">Create and Manage Product</h1>
+
+              {/* 3. With Demand Forecast */}
+              <div className="flex items-center gap-2 text-sm font-medium text-white">
+                <Switch
+                  checked={withDemandForecast}
+                  onCheckedChange={setWithDemandForecast}
+                  disabled={loadingForecast}
+                />
+                With Demand Forecast
+              </div>
             </div>
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-48 bg-background border-border text-foreground">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                {categories.map(category => (
-                  <SelectItem key={category} value={category}>{category}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Button variant="outline" className="border-border text-foreground">
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
-            </Button>
-            <Button
-              onClick={() => setShowAddDialog(true)}
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add New Products
-            </Button>
-            <Button
-              onClick={() => navigate("/forecast")}
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
-            >
-              Demand Forecast
-            </Button>
+
+            {/* Center Section - Stationary Filter */}
+            <div className="flex items-center gap-2 flex-1 justify-center max-w-xl min-w-0">
+              <div className="relative">
+                <Input
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-300 w-40 sm:w-48"
+                />
+              </div>
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="w-32 sm:w-40 bg-gray-700 border-gray-600 text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map(category => (
+                    <SelectItem key={category} value={category}>{category}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button variant="outline" size="sm" className="border-gray-600 text-white hover:bg-gray-700 text-sm font-medium">
+                <Filter className="w-3 h-3 mr-1" />
+                Filter
+              </Button>
+            </div>
+
+            {/* Right Section */}
+            <div className="flex items-center gap-2">
+              {/* 5. Add New Products */}
+              <Button
+                size="sm"
+                onClick={() => setShowAddDialog(true)}
+                className="bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium"
+              >
+                <Plus className="w-3 h-3 mr-1" />
+                Add New Products
+              </Button>
+
+              {/* 6. Demand Forecast */}
+              <Button
+                size="sm"
+                onClick={() => navigate("/forecast")}
+                className="bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium"
+              >
+                <BarChart3 className="w-3 h-3 mr-1" />
+                Demand Forecast
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -364,37 +380,37 @@ const CreateProduct = () => {
           </div>
         )}
 
-        <div className="bg-muted rounded-lg overflow-hidden">
+        <div className="bg-white rounded-lg overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-background/50">
+                <tr className="bg-gray-100">
                   <th className="p-4 text-left">
                     <Checkbox />
                   </th>
-                  <th className="p-4 text-left text-foreground font-semibold">Product Name</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Product Category</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Cost Price</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Selling Price</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Description</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Available Stock</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Units Sold</th>
+                  <th className="p-4 text-left text-gray-700 font-semibold">Product Name</th>
+                  <th className="p-4 text-left text-gray-700 font-semibold">Product Category</th>
+                  <th className="p-4 text-left text-gray-700 font-semibold">Cost Price</th>
+                  <th className="p-4 text-left text-gray-700 font-semibold">Selling Price</th>
+                  <th className="p-4 text-left text-gray-700 font-semibold">Description</th>
+                  <th className="p-4 text-left text-gray-700 font-semibold">Available Stock</th>
+                  <th className="p-4 text-left text-gray-700 font-semibold">Units Sold</th>
                   {withDemandForecast && (
-                    <th className="p-4 text-left text-foreground font-semibold">Calculated Demand Forecast</th>
+                    <th className="p-4 text-left text-gray-700 font-semibold">Calculated Demand Forecast</th>
                   )}
-                  <th className="p-4 text-left text-foreground font-semibold">Action</th>
+                  <th className="p-4 text-left text-gray-700 font-semibold">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={withDemandForecast ? 10 : 9} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={withDemandForecast ? 10 : 9} className="p-8 text-center text-gray-500">
                       Loading products...
                     </td>
                   </tr>
                 ) : products.length === 0 ? (
                   <tr>
-                    <td colSpan={withDemandForecast ? 10 : 9} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={withDemandForecast ? 10 : 9} className="p-8 text-center text-gray-500">
                       No products found
                     </td>
                   </tr>
@@ -402,8 +418,8 @@ const CreateProduct = () => {
                   products.map((product) => (
                     <tr
                       key={product.id}
-                      className={`border-t border-border ${
-                        selectedProducts.includes(product.id) ? "bg-primary/5" : ""
+                      className={`border-t border-gray-200 ${
+                        selectedProducts.includes(product.id) ? "bg-emerald-50" : ""
                       }`}
                     >
                       <td className="p-4">
@@ -412,21 +428,21 @@ const CreateProduct = () => {
                           onCheckedChange={() => toggleProductSelection(product.id)}
                         />
                       </td>
-                      <td className="p-4 text-foreground">{product.name}</td>
-                      <td className="p-4 text-muted-foreground">{product.category}</td>
-                      <td className="p-4 text-foreground">${product.cost_price.toFixed(2)}</td>
-                      <td className="p-4 text-foreground">${product.selling_price.toFixed(2)}</td>
-                      <td className="p-4 text-muted-foreground max-w-xs truncate">
+                      <td className="p-4 text-gray-800">{product.name}</td>
+                      <td className="p-4 text-gray-600">{product.category}</td>
+                      <td className="p-4 text-gray-800">${product.cost_price.toFixed(2)}</td>
+                      <td className="p-4 text-gray-800">${product.selling_price.toFixed(2)}</td>
+                      <td className="p-4 text-gray-600 max-w-xs truncate">
                         {product.description || "No description"}
                       </td>
-                      <td className="p-4 text-foreground">{product.stock_available.toLocaleString()}</td>
-                      <td className="p-4 text-foreground">{product.units_sold.toLocaleString()}</td>
+                      <td className="p-4 text-gray-800">{product.stock_available.toLocaleString()}</td>
+                      <td className="p-4 text-gray-800">{product.units_sold.toLocaleString()}</td>
                       {withDemandForecast && (
                         <td className="p-4">
                           {loadingForecast ? (
-                            <span className="text-muted-foreground">Loading...</span>
+                            <span className="text-gray-500">Loading...</span>
                           ) : (
-                            <span className="bg-primary/20 text-primary px-3 py-1 rounded">
+                            <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded">
                               {getProductForecast(product.id)?.toLocaleString() || "N/A"}
                             </span>
                           )}
@@ -435,28 +451,28 @@ const CreateProduct = () => {
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           <button 
-                            className="text-muted-foreground hover:text-primary"
+                            className="text-gray-600 hover:text-emerald-600"
                             onClick={() => handleViewProduct(product)}
                             title="View Product"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
                           <button 
-                            className="text-muted-foreground hover:text-primary"
+                            className="text-gray-600 hover:text-emerald-600"
                             onClick={() => handleEditProduct(product)}
                             title="Edit Product"
                           >
                             <Pencil className="w-4 h-4" />
                           </button>
                           <button 
-                            className="text-muted-foreground hover:text-primary"
+                            className="text-gray-600 hover:text-emerald-600"
                             onClick={() => handleForecastProduct(product)}
                             title="Demand Forecast"
                           >
                             <BarChart3 className="w-4 h-4" />
                           </button>
                           <button 
-                            className="text-muted-foreground hover:text-destructive"
+                            className="text-gray-600 hover:text-red-600"
                             onClick={() => confirmDeleteProduct(product)}
                             title="Delete Product"
                           >

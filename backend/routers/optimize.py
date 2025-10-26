@@ -48,7 +48,7 @@ def find_optimal_price(product: Product) -> tuple[float, float]:
     
     return optimal_price, max_profit
 
-@router.get("/optimize")
+@router.get("/")
 def optimize(db: Session = Depends(get_db)):
     """
     Optimize prices for all products by finding the price that maximizes profit.

@@ -36,6 +36,27 @@ def seed(force=False):
         df = pd.read_csv(CSV_PATH)
         print(f"Found {len(df)} products in CSV file")
         
+        # Header mapping logic
+        mapping = {
+            "product_name": "name",
+            "product_category": "category",
+            "cost": "cost_price",
+            "selling": "selling_price",
+            "desc": "description",
+            "available": "stock_available",
+            "sold": "units_sold",
+            "forecast": "demand_forecast"
+        }
+        df.rename(columns=mapping, inplace=True, errors="ignore")
+        
+        # Drop extra columns that are not in the Product model
+        columns_to_drop = ["product_id", "customer_rating"]
+        for col in columns_to_drop:
+            if col in df.columns:
+                df.drop(col, axis=1, inplace=True)
+        
+        print(f"CSV columns after mapping: {list(df.columns)}")
+        
         # Insert products
         for _, row in df.iterrows():
             product = Product(
