@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Plus, Filter, Eye, Pencil, Trash2, BarChart3 } from "lucide-react";
+import { ArrowLeft, Plus, Filter, Eye, Pencil, Trash2, BarChart3, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -286,7 +286,9 @@ const CreateProduct = () => {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-white">Welcome, Rakesh</span>
-            <div className="w-8 h-8 rounded-full bg-gray-600" />
+            <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+              <User className="w-5 h-5 text-white" />
+            </div>
           </div>
         </div>
       </div>
@@ -384,21 +386,21 @@ const CreateProduct = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-gray-100">
+                <tr className="bg-black">
                   <th className="p-4 text-left">
                     <Checkbox />
                   </th>
-                  <th className="p-4 text-left text-gray-700 font-semibold">Product Name</th>
-                  <th className="p-4 text-left text-gray-700 font-semibold">Product Category</th>
-                  <th className="p-4 text-left text-gray-700 font-semibold">Cost Price</th>
-                  <th className="p-4 text-left text-gray-700 font-semibold">Selling Price</th>
-                  <th className="p-4 text-left text-gray-700 font-semibold">Description</th>
-                  <th className="p-4 text-left text-gray-700 font-semibold">Available Stock</th>
-                  <th className="p-4 text-left text-gray-700 font-semibold">Units Sold</th>
+                  <th className="p-4 text-left text-white font-semibold">Product Name</th>
+                  <th className="p-4 text-left text-white font-semibold">Product Category</th>
+                  <th className="p-4 text-left text-white font-semibold">Cost Price</th>
+                  <th className="p-4 text-left text-white font-semibold">Selling Price</th>
+                  <th className="p-4 text-left text-white font-semibold">Description</th>
+                  <th className="p-4 text-left text-white font-semibold">Available Stock</th>
+                  <th className="p-4 text-left text-white font-semibold">Units Sold</th>
                   {withDemandForecast && (
-                    <th className="p-4 text-left text-gray-700 font-semibold">Calculated Demand Forecast</th>
+                    <th className="p-4 text-left text-white font-semibold">Calculated Demand Forecast</th>
                   )}
-                  <th className="p-4 text-left text-gray-700 font-semibold">Action</th>
+                  <th className="p-4 text-left text-white font-semibold">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -415,11 +417,15 @@ const CreateProduct = () => {
                     </td>
                   </tr>
                 ) : (
-                  products.map((product) => (
+                  products.map((product, index) => (
                     <tr
                       key={product.id}
                       className={`border-t border-gray-200 ${
-                        selectedProducts.includes(product.id) ? "bg-emerald-50" : ""
+                        selectedProducts.includes(product.id) 
+                          ? "bg-emerald-50" 
+                          : index % 2 === 0 
+                            ? "bg-white" 
+                            : "bg-gray-50"
                       }`}
                     >
                       <td className="p-4">

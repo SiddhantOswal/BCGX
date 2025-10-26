@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useOptimizedPrices } from "@/hooks/useProducts";
 import { useToast } from "@/hooks/use-toast";
@@ -76,19 +76,21 @@ const PricingOptimization = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="bg-muted border-b border-border p-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-gray-800 border-b border-gray-700 p-4">
+        <div className="w-full px-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-xl font-bold">
-              <span className="text-foreground">BCG</span>
-              <span className="text-primary">X</span>
+              <span className="text-white">BCG</span>
+              <span className="text-emerald-400">X</span>
             </span>
-            <span className="text-primary font-semibold">Price Optimization Tool</span>
+            <span className="text-emerald-400 font-semibold">Price Optimization Tool</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">Welcome, Rakesh</span>
-            <div className="w-8 h-8 rounded-full bg-muted-foreground/20" />
+            <span className="text-sm text-white">Welcome, Rakesh</span>
+            <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+              <User className="w-5 h-5 text-white" />
+            </div>
           </div>
         </div>
       </div>
@@ -99,12 +101,12 @@ const PricingOptimization = () => {
             variant="ghost"
             size="sm"
             onClick={() => navigate("/")}
-            className="text-foreground hover:text-primary"
+            className="text-gray-600 hover:text-emerald-600"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Button>
-          <h1 className="text-2xl font-bold text-foreground">Pricing Optimization</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Pricing Optimization</h1>
         </div>
 
         {error && (
@@ -113,50 +115,55 @@ const PricingOptimization = () => {
           </div>
         )}
 
-        <div className="bg-muted rounded-lg overflow-hidden mb-6">
+        <div className="bg-white rounded-lg overflow-hidden shadow-sm mb-6">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-background/50">
-                  <th className="p-4 text-left text-foreground font-semibold">Product Name</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Product Category</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Description</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Cost Price</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Selling Price</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Optimized Price</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Max Profit</th>
+                <tr className="bg-black">
+                  <th className="p-4 text-left text-white font-semibold">Product Name</th>
+                  <th className="p-4 text-left text-white font-semibold">Product Category</th>
+                  <th className="p-4 text-left text-white font-semibold">Description</th>
+                  <th className="p-4 text-left text-white font-semibold">Cost Price</th>
+                  <th className="p-4 text-left text-white font-semibold">Selling Price</th>
+                  <th className="p-4 text-left text-white font-semibold">Optimized Price</th>
+                  <th className="p-4 text-left text-white font-semibold">Max Profit</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={7} className="p-8 text-center text-gray-500">
                       Loading optimized prices...
                     </td>
                   </tr>
                 ) : optimizedProducts.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={7} className="p-8 text-center text-gray-500">
                       No optimized prices available
                     </td>
                   </tr>
                 ) : (
-                  optimizedProducts.map((product) => (
-                    <tr key={product.id} className="border-t border-border">
-                      <td className="p-4 text-foreground">{product.name}</td>
-                      <td className="p-4 text-muted-foreground">{product.category}</td>
-                      <td className="p-4 text-muted-foreground max-w-md">
+                  optimizedProducts.map((product, index) => (
+                    <tr 
+                      key={product.id} 
+                      className={`border-t border-gray-200 ${
+                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                      }`}
+                    >
+                      <td className="p-4 text-gray-800">{product.name}</td>
+                      <td className="p-4 text-gray-600">{product.category}</td>
+                      <td className="p-4 text-gray-600 max-w-md">
                         {product.description || "No description"}
                       </td>
-                      <td className="p-4 text-foreground">${product.cost_price.toFixed(2)}</td>
-                      <td className="p-4 text-foreground">${product.selling_price.toFixed(2)}</td>
+                      <td className="p-4 text-gray-800">${product.cost_price.toFixed(2)}</td>
+                      <td className="p-4 text-gray-800">${product.selling_price.toFixed(2)}</td>
                       <td className="p-4">
-                        <span className="text-primary font-semibold text-lg">
+                        <span className="text-emerald-600 font-semibold text-lg">
                           ${product.optimized_price.toFixed(2)}
                         </span>
                       </td>
                       <td className="p-4">
-                        <span className="bg-green-100 text-green-800 px-3 py-1 rounded font-semibold">
+                        <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded font-semibold">
                           ${product.max_profit.toFixed(2)}
                         </span>
                       </td>
@@ -171,14 +178,14 @@ const PricingOptimization = () => {
         <div className="flex justify-end gap-4">
           <Button 
             variant="outline" 
-            className="border-border text-foreground"
+            className="border-gray-300 text-gray-700 hover:bg-gray-50"
             onClick={handleCancel}
             disabled={isSaving}
           >
             Cancel
           </Button>
           <Button 
-            className="bg-primary text-primary-foreground hover:bg-primary/90"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white"
             onClick={handleSave}
             disabled={isSaving || loading}
           >

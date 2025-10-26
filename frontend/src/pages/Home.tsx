@@ -33,30 +33,32 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-black p-8">
       {/* Header with user info and logout */}
       <div className="w-full px-6 mb-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
             <span className="text-2xl font-bold">
-              <span className="text-gray-800">BCG</span>
+              <span className="text-white">BCG</span>
               <span className="text-emerald-500">X</span>
             </span>
             <span className="text-emerald-500 font-semibold">Price Optimization Tool</span>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <User className="w-4 h-4" />
+            <div className="flex items-center gap-2 text-sm text-white">
               <span>{user?.full_name}</span>
               <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs">
                 {user?.role}
               </span>
             </div>
+            <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+              <User className="w-5 h-5 text-white" />
+            </div>
             <Button
               variant="outline"
               size="sm"
               onClick={handleLogout}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
             >
               <LogOut className="w-4 h-4" />
               Logout
@@ -69,14 +71,14 @@ const Home = () => {
         <div className="text-center mb-16">
           <div className="mb-6">
             <span className="text-4xl font-bold">
-              <span className="text-foreground">BCG</span>
-              <span className="text-primary">X</span>
+              <span className="text-white">BCG</span>
+              <span className="text-emerald-500">X</span>
             </span>
           </div>
-          <h1 className="text-5xl font-bold text-foreground mb-4">
+          <h1 className="text-5xl font-bold text-white mb-4">
             Price Optimization Tool
           </h1>
-          <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+          <p className="text-gray-300 text-lg max-w-3xl mx-auto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>

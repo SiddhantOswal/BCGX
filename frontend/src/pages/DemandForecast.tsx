@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, Tooltip } from "recharts";
@@ -30,16 +30,16 @@ const DemandForecast = () => {
   const [chartData, setChartData] = useState<any[]>([]);
   const [isLoadingChart, setIsLoadingChart] = useState(false);
 
-  // Chart colors for different products
+  // Chart colors for different products - optimized for black background
   const chartColors = [
-    "hsl(var(--chart-1))", // Teal
-    "hsl(var(--chart-2))", // Purple
-    "hsl(var(--chart-3))", // Orange
-    "hsl(var(--chart-4))", // Pink
-    "hsl(var(--chart-5))", // Blue
-    "hsl(var(--chart-6))", // Green
-    "hsl(var(--chart-7))", // Red
-    "hsl(var(--chart-8))", // Yellow
+    "#10b981", // Emerald
+    "#8b5cf6", // Purple
+    "#f59e0b", // Amber
+    "#ef4444", // Red
+    "#3b82f6", // Blue
+    "#06b6d4", // Cyan
+    "#84cc16", // Lime
+    "#f97316", // Orange
   ];
 
   const toggleProductSelection = (productId: string) => {
@@ -102,19 +102,21 @@ const DemandForecast = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="bg-muted border-b border-border p-4">
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-gray-800 border-b border-gray-700 p-4">
         <div className="w-full px-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-xl font-bold">
-              <span className="text-foreground">BCG</span>
-              <span className="text-primary">X</span>
+              <span className="text-white">BCG</span>
+              <span className="text-emerald-400">X</span>
             </span>
-            <span className="text-primary font-semibold">Price Optimization Tool</span>
+            <span className="text-emerald-400 font-semibold">Price Optimization Tool</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">Welcome, Rakesh</span>
-            <div className="w-8 h-8 rounded-full bg-muted-foreground/20" />
+            <span className="text-sm text-white">Welcome, Rakesh</span>
+            <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+              <User className="w-5 h-5 text-white" />
+            </div>
           </div>
         </div>
       </div>
@@ -125,32 +127,32 @@ const DemandForecast = () => {
             variant="ghost"
             size="sm"
             onClick={() => navigate("/create")}
-            className="text-foreground hover:text-primary"
+            className="text-gray-600 hover:text-emerald-600"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Button>
-          <h1 className="text-2xl font-bold text-foreground">Demand Forecast</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Demand Forecast</h1>
         </div>
 
-        {/* Chart Section */}
-        <div className="bg-muted rounded-lg p-6 mb-6">
+        {/* Chart Section - MUI Black Theme */}
+        <div className="bg-black rounded-lg p-6 mb-6 shadow-sm">
           <div className="mb-4">
-            <h2 className="text-lg font-semibold text-foreground mb-2">
+            <h2 className="text-lg font-semibold text-white mb-2">
               Product Demand Analysis
             </h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-gray-300">
               Select products below to view their demand trends over time
             </p>
           </div>
           
           {isLoadingChart ? (
             <div className="h-96 flex items-center justify-center">
-              <p className="text-muted-foreground">Loading chart data...</p>
+              <p className="text-gray-300">Loading chart data...</p>
             </div>
           ) : chartData.length === 0 ? (
             <div className="h-96 flex items-center justify-center">
-              <p className="text-muted-foreground">
+              <p className="text-gray-300">
                 {selectedProducts.length === 0 
                   ? "Select products below to view demand analysis" 
                   : "No chart data available for selected products"}
@@ -159,27 +161,28 @@ const DemandForecast = () => {
           ) : (
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#666" />
                 <XAxis
                   dataKey="year"
-                  stroke="#999"
-                  tick={{ fill: "#999" }}
-                  label={{ value: 'Year', position: 'insideBottom', offset: -5 }}
+                  stroke="#ccc"
+                  tick={{ fill: "#ccc" }}
+                  label={{ value: 'Year', position: 'insideBottom', offset: -5, style: { fill: '#ccc' } }}
                 />
                 <YAxis 
-                  stroke="#999" 
-                  tick={{ fill: "#999" }}
-                  label={{ value: 'Value', angle: -90, position: 'insideLeft' }}
+                  stroke="#ccc" 
+                  tick={{ fill: "#ccc" }}
+                  label={{ value: 'Value', angle: -90, position: 'insideLeft', style: { fill: '#ccc' } }}
                 />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: 'hsl(var(--background))', 
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '6px'
+                    backgroundColor: '#1f2937', 
+                    border: '1px solid #374151',
+                    borderRadius: '6px',
+                    color: '#f9fafb'
                   }}
                 />
                 <Legend
-                  wrapperStyle={{ color: "#999" }}
+                  wrapperStyle={{ color: "#ccc" }}
                   iconType="line"
                 />
                 {selectedProducts.map((productId, index) => {
@@ -193,8 +196,9 @@ const DemandForecast = () => {
                       dataKey={`${product.product_name} - Demand`}
                       name={product.product_name}
                       stroke={chartColors[index % chartColors.length]}
-                      strokeWidth={2}
-                      dot={{ fill: chartColors[index % chartColors.length], strokeWidth: 2, r: 4 }}
+                      strokeWidth={3}
+                      dot={{ fill: chartColors[index % chartColors.length], strokeWidth: 2, r: 5 }}
+                      activeDot={{ r: 7, stroke: chartColors[index % chartColors.length], strokeWidth: 2 }}
                       connectNulls={false}
                     />
                   );
@@ -211,12 +215,12 @@ const DemandForecast = () => {
         )}
 
         {/* Products Table */}
-        <div className="bg-muted rounded-lg overflow-hidden mb-6">
+        <div className="bg-white rounded-lg overflow-hidden shadow-sm mb-6">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-background/50">
-                  <th className="p-4 text-left text-foreground font-semibold w-12">
+                <tr className="bg-black">
+                  <th className="p-4 text-left text-white font-semibold w-12">
                     <Checkbox
                       checked={selectedProducts.length === summary.length && summary.length > 0}
                       onCheckedChange={(checked) => {
@@ -228,45 +232,50 @@ const DemandForecast = () => {
                       }}
                     />
                   </th>
-                  <th className="p-4 text-left text-foreground font-semibold">Product Name</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Product Category</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Cost Price</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Selling Price</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Available Stock</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Units Sold</th>
-                  <th className="p-4 text-left text-foreground font-semibold">Calculated Demand Forecast</th>
+                  <th className="p-4 text-left text-white font-semibold">Product Name</th>
+                  <th className="p-4 text-left text-white font-semibold">Product Category</th>
+                  <th className="p-4 text-left text-white font-semibold">Cost Price</th>
+                  <th className="p-4 text-left text-white font-semibold">Selling Price</th>
+                  <th className="p-4 text-left text-white font-semibold">Available Stock</th>
+                  <th className="p-4 text-left text-white font-semibold">Units Sold</th>
+                  <th className="p-4 text-left text-white font-semibold">Calculated Demand Forecast</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={8} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={8} className="p-8 text-center text-gray-500">
                       Loading forecast data...
                     </td>
                   </tr>
                 ) : summary.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={8} className="p-8 text-center text-gray-500">
                       No forecast data available
                     </td>
                   </tr>
                 ) : (
-                  summary.map((product) => (
-                    <tr key={product.product_id} className="border-t border-border">
+                  summary.map((product, index) => (
+                    <tr 
+                      key={product.product_id} 
+                      className={`border-t border-gray-200 ${
+                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                      }`}
+                    >
                       <td className="p-4">
                         <Checkbox
                           checked={selectedProducts.includes(product.product_id)}
                           onCheckedChange={() => toggleProductSelection(product.product_id)}
                         />
                       </td>
-                      <td className="p-4 text-foreground">{product.product_name}</td>
-                      <td className="p-4 text-muted-foreground">{product.category}</td>
-                      <td className="p-4 text-foreground">${product.cost_price.toFixed(2)}</td>
-                      <td className="p-4 text-foreground">${product.selling_price.toFixed(2)}</td>
-                      <td className="p-4 text-foreground">-</td>
-                      <td className="p-4 text-foreground">-</td>
+                      <td className="p-4 text-gray-800">{product.product_name}</td>
+                      <td className="p-4 text-gray-600">{product.category}</td>
+                      <td className="p-4 text-gray-800">${product.cost_price.toFixed(2)}</td>
+                      <td className="p-4 text-gray-800">${product.selling_price.toFixed(2)}</td>
+                      <td className="p-4 text-gray-800">-</td>
+                      <td className="p-4 text-gray-800">-</td>
                       <td className="p-4">
-                        <span className="bg-primary/20 text-primary px-3 py-1 rounded">
+                        <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded">
                           {product.forecast_demand.toLocaleString()}
                         </span>
                       </td>
@@ -281,13 +290,13 @@ const DemandForecast = () => {
         <div className="flex justify-end gap-4">
           <Button 
             variant="outline" 
-            className="border-border text-foreground"
+            className="border-gray-300 text-gray-700 hover:bg-gray-50"
             onClick={handleCancel}
           >
             Cancel
           </Button>
           <Button 
-            className="bg-primary text-primary-foreground hover:bg-primary/90"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white"
             onClick={handleSave}
           >
             Save
