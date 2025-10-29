@@ -38,7 +38,8 @@ export const authService = {
     formData.append('username', email);
     formData.append('password', password);
 
-    const response = await fetch(`${apiService['baseURL']}/auth/login`, {
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       body: formData,
     });
@@ -48,7 +49,7 @@ export const authService = {
     }
 
     const token: Token = await response.json();
-    apiService.setToken(token.access_token);
+    apiService.setAuthToken(token.access_token);
     return token;
   },
 
@@ -58,10 +59,10 @@ export const authService = {
   },
 
   logout(): void {
-    apiService.clearToken();
+    apiService.clearAuthToken();
   },
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('auth_token');
+    return !!localStorage.getItem('token');
   },
 };
